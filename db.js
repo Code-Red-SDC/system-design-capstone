@@ -15,4 +15,6 @@ const poolConfig = process.env.DATABASE_URL ? {
 
 const pool = new Pool(poolConfig);
 
+pool.connect();
+
 module.exports = { pool };
