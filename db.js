@@ -15,6 +15,8 @@ const poolConfig = process.env.DATABASE_URL ? {
 
 const pool = new Pool(poolConfig);
 
-pool.connect();
+pool.connect()
+  .then(() => console.log('Database connected.'))
+  .catch(() => 'Error connecting to database');
 
 module.exports = { pool };
