@@ -67,3 +67,8 @@ CREATE TABLE related (
 --ALTER TABLE related ALTER COLUMN productId SET NOT NULL;
 --ALTER TABLE related ALTER COLUMN relatedId SET NOT NULL;
 --ALTER TABLE related ADD CONSTRAINT productId FOREIGN KEY(productId) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE;
+--CREATE INDEX idx_features_productId on features(productId);
+--CREATE INDEX idx_styles_productId on styles(productId);
+--CREATE INDEX idx_photos_styleId on photos(styleId);
+--CREATE INDEX idx_skus_styleId on skus(styleId);
+--CREATE INDEX idx_related_productId on related(productId);
