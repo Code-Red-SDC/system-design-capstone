@@ -1,4 +1,4 @@
-const { pool } = require('./db');
+const { pool } = require('../db/db');
 
 module.exports = {
   getProducts: (page, count) => {
