@@ -6,7 +6,7 @@ module.exports = {
       const page = req.query.page || 1;
       const count = req.query.count || 5;
       const result = await models.getProducts(page, count);
-      res.json(result);
+      res.json(result.rows);
     } catch (err) {
       res.sendStatus(404);
     }
@@ -27,23 +27,27 @@ module.exports = {
     try {
       const { productId } = req.params;
       const result = await models.getStyles(productId);
-      const resultObj = { product_id: productId, results: result };
+      const styles = result.rows;
+      if (styles.length === 0) {
+        throw new Error();
+      }
+      const resultObj = { product_id: productId, results: styles };
       const photoPromises = [];
       const skuPromises = [];
-      for (let i = 0; i < result.length; i += 1) {
-        const style = result[i];
+      for (let i = 0; i < styles.length; i += 1) {
+        const style = styles[i];
         photoPromises.push(models.getPhotos(style.id));
         skuPromises.push(models.getSkus(style.id));
       }
       const photos = await Promise.all(photoPromises);
       const skus = await Promise.all(skuPromises);
-      for (let i = 0; i < result.length; i += 1) {
-        result[i].photos = photos[i];
-        result[i].skus = {};
+      for (let i = 0; i < styles.length; i += 1) {
+        styles[i].photos = photos[i];
+        styles[i].skus = {};
         const currSkus = skus[i];
         for (let j = 0; j < currSkus.length; j += 1) {
           const currSku = currSkus[j];
-          result[i].skus[currSku.id] = { quantity: currSku.quantity, size: currSku.size };
+          styles[i].skus[currSku.id] = { quantity: currSku.quantity, size: currSku.size };
         }
       }
       res.json(resultObj);
@@ -55,10 +59,14 @@ module.exports = {
     try {
       const { productId } = req.params;
       const result = await models.getRelated(productId);
-      for (let i = 0; i < result.length; i += 1) {
-        result[i] = result[i].relatedid;
+      const related = result.rows;
+      if (related.length === 0) {
+        throw new Error();
       }
-      res.json(result);
+      for (let i = 0; i < related.length; i += 1) {
+        related[i] = related[i].relatedid;
+      }
+      res.json(related);
     } catch (err) {
       res.sendStatus(404);
     }

@@ -1,17 +1,7 @@
 const { pool } = require('../db/db');
 
 module.exports = {
-  getProducts: (page, count) => {
-    const productQuery = new Promise((resolve, reject) => {
-      pool.query(`SELECT * FROM products ORDER BY id ASC LIMIT ${page * count}`, (err, results) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(results.rows);
-      });
-    });
-    return productQuery;
-  },
+  getProducts: (page, count) => pool.query(`SELECT * FROM products ORDER BY id ASC LIMIT ${page * count}`),
   getProduct: (productId) => {
     const productQuery = new Promise((resolve, reject) => {
       pool.query(`SELECT * FROM products WHERE id=${productId}`, (err, results) => {
@@ -31,17 +21,7 @@ module.exports = {
     });
     return Promise.all([productQuery, featureQuery]);
   },
-  getStyles: (productId) => {
-    const stylesQuery = new Promise((resolve, reject) => {
-      pool.query(`SELECT id, name, salePrice, originalPrice, defaultStyle FROM styles WHERE productId=${productId}`, (err, results) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(results.rows);
-      });
-    });
-    return stylesQuery;
-  },
+  getStyles: (productId) => pool.query(`SELECT id, name, salePrice, originalPrice, defaultStyle FROM styles WHERE productId=${productId}`),
   getPhotos: (styleId) => {
     const photosQuery = new Promise((resolve, reject) => {
       pool.query(`SELECT url, thumbnailUrl FROM photos WHERE styleId=${styleId}`, (err, results) => {
@@ -64,16 +44,5 @@ module.exports = {
     });
     return skusQuery;
   },
-  getRelated: (productId) => {
-    const relatedQuery = new Promise((resolve, reject) => {
-      pool.query(`SELECT relatedId FROM related WHERE productId=${productId}`, (err, results) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(results.rows);
-      });
-    });
-    return relatedQuery;
-  },
-  releaseConnection: () => pool.release(),
+  getRelated: (productId) => pool.query(`SELECT relatedId FROM related WHERE productId=${productId}`),
 };
