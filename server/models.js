@@ -75,4 +75,5 @@ module.exports = {
     });
     return relatedQuery;
   },
+  releaseConnection: () => pool.release(),
 };

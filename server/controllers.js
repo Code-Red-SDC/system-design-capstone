@@ -8,7 +8,7 @@ module.exports = {
       const result = await models.getProducts(page, count);
       res.json(result);
     } catch (err) {
-      console.error(err);
+      res.sendStatus(404);
     }
   },
   getProduct: async (req, res) => {
@@ -20,7 +20,7 @@ module.exports = {
       product.features = features;
       res.json(product);
     } catch (err) {
-      console.error(err);
+      res.sendStatus(404);
     }
   },
   getStyles: async (req, res) => {
@@ -48,7 +48,7 @@ module.exports = {
       }
       res.json(resultObj);
     } catch (err) {
-      console.error(err);
+      res.sendStatus(404);
     }
   },
   getRelated: async (req, res) => {
@@ -60,7 +60,7 @@ module.exports = {
       }
       res.json(result);
     } catch (err) {
-      console.error(err);
+      res.sendStatus(404);
     }
   },
 };

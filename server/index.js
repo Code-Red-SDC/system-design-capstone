@@ -1,16 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const routes = require('./routes');
+const { createServer } = require('./server');
 
-const app = express();
 const PORT = process.env.port || 5000;
-const corsOptions = { origin: process.env.URL || '*' };
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use('/', routes);
+const app = createServer();
 
 app.listen(PORT, (err) => {
   if (err) {
@@ -18,3 +10,5 @@ app.listen(PORT, (err) => {
   }
   console.log(`Server listening on port ${PORT}`);
 });
+
+module.exports = { app };
