@@ -105,4 +105,4 @@ dist
 
 # Example data files
 csv/
-example_data/example.txt
+example_data/

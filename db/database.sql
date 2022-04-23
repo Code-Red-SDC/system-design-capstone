@@ -37,8 +37,8 @@ CREATE TABLE photos (
 );
 
 CREATE TABLE skus (
-  id INT PRIMARY KEY NOT NULL,
   styleId INT NOT NULL,
+  id INT PRIMARY KEY NOT NULL,
   size VARCHAR(25) NOT NULL,
   quantity INT NOT NULL,
   FOREIGN KEY (styleId) REFERENCES styles(id)

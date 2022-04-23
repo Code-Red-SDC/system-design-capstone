@@ -15,10 +15,7 @@ module.exports = {
     try {
       const { productId } = req.params;
       const result = await models.getProduct(productId);
-      const product = result[0];
-      const features = result[1];
-      product.features = features;
-      res.json(product);
+      res.json(result.rows[0].product);
     } catch (err) {
       res.sendStatus(404);
     }
@@ -26,31 +23,21 @@ module.exports = {
   getStyles: async (req, res) => {
     try {
       const { productId } = req.params;
-      const result = await models.getStyles(productId);
-      const styles = result.rows;
-      if (styles.length === 0) {
-        throw new Error();
-      }
-      const resultObj = { product_id: productId, results: styles };
-      const photoPromises = [];
-      const skuPromises = [];
-      for (let i = 0; i < styles.length; i += 1) {
-        const style = styles[i];
-        photoPromises.push(models.getPhotos(style.id));
-        skuPromises.push(models.getSkus(style.id));
-      }
-      const photos = await Promise.all(photoPromises);
-      const skus = await Promise.all(skuPromises);
-      for (let i = 0; i < styles.length; i += 1) {
-        styles[i].photos = photos[i];
-        styles[i].skus = {};
-        const currSkus = skus[i];
-        for (let j = 0; j < currSkus.length; j += 1) {
-          const currSku = currSkus[j];
-          styles[i].skus[currSku.id] = { quantity: currSku.quantity, size: currSku.size };
-        }
-      }
-      res.json(resultObj);
+      const results = await models.getStyles(productId);
+      const styles = results.rows[0].product;
+      const mapped = styles.results.map(async (style) => {
+        const styleObj = { ...style };
+        const skus = await models.getSkus(style.style_id);
+        const skuObj = {};
+        skus.rows.forEach((sku) => {
+          skuObj[sku.id] = { quantity: sku.quantity, size: sku.size };
+        });
+        styleObj.skus = skuObj;
+        return styleObj;
+      });
+      const mappedStyles = await Promise.all(mapped);
+      styles.results = mappedStyles;
+      res.json(styles);
     } catch (err) {
       res.sendStatus(404);
     }
@@ -59,12 +46,9 @@ module.exports = {
     try {
       const { productId } = req.params;
       const result = await models.getRelated(productId);
-      const related = result.rows;
-      if (related.length === 0) {
+      const { related } = result.rows[0];
+      if (!related) {
         throw new Error();
-      }
-      for (let i = 0; i < related.length; i += 1) {
-        related[i] = related[i].relatedid;
       }
       res.json(related);
     } catch (err) {

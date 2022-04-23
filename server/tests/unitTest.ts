@@ -46,7 +46,7 @@ describe('product', () => {
       });
     });
     describe('given a query with a valid product id', () => {
-      const productId = 173451;
+      const productId = Math.floor(Math.random() * 1000011);
       it('should return a 200 response code and object matching product id', async () => {
         const { body, statusCode } = await supertest(app).get(`/products/${productId}`);
 
@@ -77,13 +77,13 @@ describe('styles', () => {
       });
     });
     describe('given a query with a valid product id', () => {
-      const productId = 1000001;
+      const productId = Math.floor(Math.random() * 1000011);
       it('should return a 200 response code and object matching product id', async () => {
         const { body, statusCode } = await supertest(app).get(`/products/${productId}/styles`);
 
         expect(statusCode).toBe(200);
         expect(typeof body).toBe('object');
-        expect(body.product_id).toEqual(String(productId));
+        expect(body.product_id).toEqual(productId);
       });
       it('should return an object with property called results', async () => {
         const { body } = await supertest(app).get(`/products/${productId}/styles`);
@@ -116,7 +116,7 @@ describe('styles', () => {
 
         body.results.forEach((style) => {
           expect(typeof style.skus).toBe('object');
-        })
+        });
       });
     });
   });
@@ -129,7 +129,7 @@ describe('related', () => {
         await supertest(app).get('/products/2093842034/related').expect(404);
       });
     });
-    describe('given a query with a valid product id', () => {
+    describe('given a query with a valid product id of 1000001', () => {
       const productId = 1000001;
       it('should return a 200 response code and array of related products', async () => {
         const { body, statusCode } = await supertest(app).get(`/products/${productId}/related`);
