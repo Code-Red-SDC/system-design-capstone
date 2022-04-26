@@ -53,7 +53,17 @@ module.exports = {
               FROM photos
               WHERE styleId = styles.id
             ) AS photos
-          )
+          ),
+          (
+            SELECT json_object_agg(
+              id,
+              json_build_object(
+                'size', size,
+                'quantity', quantity
+              )
+            )
+            FROM skus WHERE styleId = styles.id
+          ) as skus
           FROM styles
           WHERE productId = p.id
         ) AS styles

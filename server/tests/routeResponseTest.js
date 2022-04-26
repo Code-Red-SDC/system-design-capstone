@@ -13,7 +13,7 @@ export const options = {
 
 export default () => {
   const API = 'http://127.0.0.1:5000/products';
-  const productId = Math.floor(Math.random() * 1000011);
+  const productId = Math.floor(Math.random() * (1000011 - 900009 + 1) + 900009);
 
   const requests = {
     'Get Products': {

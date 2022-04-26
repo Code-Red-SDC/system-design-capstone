@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const compression = require('compression');
 const routes = require('./routes');
 
 const createServer = () => {
@@ -10,6 +11,7 @@ const createServer = () => {
   app.use(cors(corsOptions));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(compression());
 
   app.use('/', routes);
 
