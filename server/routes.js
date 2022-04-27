@@ -9,8 +9,8 @@ router.get('/products', getProducts);
 router.get('/products/:productId', getProduct);
 router.get('/products/:productId/styles', getStyles);
 router.get('/products/:productId/related', getRelated);
-router.get('/loaderio-ceb9bc2865684926d4b5cdb52c81dbbb.txt', (req, res) => {
-  res.sendFile(`${__dirname}/loaderio-ceb9bc2865684926d4b5cdb52c81dbbb.txt`);
+router.get('/loaderio-f3398dcd9e66dabfd2d979a0d74f9e85.txt', (req, res) => {
+  res.sendFile(`${__dirname}/loaderio.txt`);
 });
 
 module.exports = router;
