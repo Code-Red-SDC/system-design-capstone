@@ -9,7 +9,7 @@ router.get('/products', getProducts);
 router.get('/products/:productId', getProduct);
 router.get('/products/:productId/styles', getStyles);
 router.get('/products/:productId/related', getRelated);
-router.get('/loaderio-f3398dcd9e66dabfd2d979a0d74f9e85.txt', (req, res) => {
+router.get('/loaderio-deb02323937d8e605bb7ea207b8ad0c4.txt', (req, res) => {
   res.sendFile(`${__dirname}/loaderio.txt`);
 });
 
