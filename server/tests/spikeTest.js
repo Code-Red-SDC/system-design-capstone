@@ -11,19 +11,19 @@ export const options = {
   InsecureSkipTLSVerify: true,
   noConnectionReuse: false,
   stages: [
-    { duration: '10s', target: 100 },
-    { duration: '1m', target: 100 },
     { duration: '10s', target: 1000 },
-    { duration: '3m', target: 1000 },
-    { duration: '10s', target: 100 },
-    { duration: '3m', target: 100 },
-    { duration: '10s', target: 0 },
+    { duration: '30s', target: 1000 },
+    // { duration: '10s', target: 1000 },
+    // { duration: '3m', target: 1000 },
+    // { duration: '10s', target: 100 },
+    // { duration: '3m', target: 100 },
+    // { duration: '10s', target: 0 },
   ],
 };
 
 export default () => {
-  const API = 'http://127.0.0.1:5000/products';
-  const productId = Math.floor(Math.random() * (1000011 - 900009 + 1) + 900009);
+  const API = 'http://3.16.109.109/products';
+  const productId = Math.floor(Math.random() * 1000011);
 
   const requests = {
     'Get Products': {
