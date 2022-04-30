@@ -1,11 +1,20 @@
+const fs = require('fs');
+const os = require('os');
 const models = require('./models');
 
 module.exports = {
   getProducts: async (req, res) => {
     try {
+      const t0 = performance.now();
       const page = req.query.page || 1;
       const count = req.query.count || 5;
       const result = await models.getProducts(page, count);
+      const t1 = performance.now() - t0;
+      fs.writeFile(`${os.hostname()}.txt`, `${os.hostname()} response time: ${t1}`, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
       res.json(result.rows);
     } catch (err) {
       res.sendStatus(404);
